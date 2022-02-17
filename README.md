@@ -1,5 +1,12 @@
 # repin-unpinned-cids
 
+## Environment Setup
+
+```
+DATABASE_CONNECTION="<Postgresql connection string>"
+CLUSTER_API_URL=""
+CLUSTER_AUTH_TOKEN=""
+```
 
 ## Usage
 

@@ -15,7 +15,8 @@ const COUNT_PIN_CANDIDATES = `
 
 const GET_PIN_CANDIDATES = `
     SELECT
-      DISTINCT ON (content_cid) content_cid
+      DISTINCT ON (content_cid) content_cid,
+	    id
     FROM pin p
     WHERE p.inserted_at > $1
     AND p.status='Unpinned'
@@ -32,15 +33,13 @@ async function countPins(db, startDate) {
 }
 
 /**
- * Fetch a list of CIDs that need to be repinned.
+ * Fetch a list of CIDs that need to be recovered.
  *
  * @param {import('pg').Client} db Postgres client.
  * @param {Date} [startDate]
  */
 export async function* getCandidate(db, startDate = new Date(0)) {
-  console.log('get total')
   const totalCandidates = await countPins(db, startDate)
-  console.log('total candidates:', totalCandidates)
   let offset = 0
   const limit = 1000
   let total = 0
@@ -55,7 +54,10 @@ export async function* getCandidate(db, startDate = new Date(0)) {
 
     for (const pin of pins) {
       log(`processing ${fmt(total + 1)} of ${fmt(totalCandidates)}`)
-      yield CID.parse(pin.content_cid)
+      yield {
+        cid: CID.parse(pin.content_cid),
+        id: pin.id
+      }
       total++
     }
 

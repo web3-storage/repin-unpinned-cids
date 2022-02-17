@@ -34,17 +34,12 @@ export async function startRepinUnpinned ({
     await pipe(getCandidate(db, startDate), async (source) => {
       // TODO: parallelise
       for await (const candidate of source) {
-        log(`processing candidate ${candidate}`)
+        log(`processing candidate ${candidate.cid}`)
         try {
-          // await pipe(
-          //   [candidate],
-          //   createPin(cluster),
-          //   registerPinStatusUpdate(db)
-          // )
+          log(`recover ${candidate.cid}`)
+          await cluster.recover(candidate.cid.toString())
         } catch (err) {
           log(`failed to repin ${candidate}`, err)
-        } finally {
-          
         }
       }
     })
