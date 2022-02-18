@@ -19,7 +19,7 @@
   },
   "homepage": "https://github.com/web3-storage/repin-unpinned-cids#readme",
   "dependencies": {
-    "@nftstorage/ipfs-cluster": "nftstorage/ipfs-cluster#fix/use-web-std-fetch",
+    "@nftstorage/ipfs-cluster": "https://gitpkg.now.sh/nftstorage/ipfs-cluster?fix/use-web-std-fetch",
     "@web-std/fetch": "^3.0.3",
     "debug": "^4.3.3",
     "dotenv": "^16.0.0",
